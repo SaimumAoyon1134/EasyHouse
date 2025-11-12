@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { FaRegUserCircle } from "react-icons/fa";
 import Loading from "./Loading";
 import image from "./image.png"
-
+import ThemeToggle from "./ThemeToggle";
 const Navbar = () => {
    const active =
      "  text-green-500 rounded-md  transition duration-300";
@@ -90,13 +90,14 @@ const links = (
         <NavLink to={"/"} className="btn btn-ghost text-xl">
           {" "}
           <img className="w-[40px] h-[40px]" src={image} alt="" />
-          <p className="hidden md:flex">SkillSwap</p>
+          <p className="hidden md:flex">Easy Home</p>
         </NavLink>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-2">
+        <ThemeToggle />
         {isLoading ? (
           <span className="loading loading-spinner loading-xl"></span>
         ) : user ? (
