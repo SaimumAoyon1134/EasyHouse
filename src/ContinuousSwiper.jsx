@@ -29,7 +29,7 @@ const ContinuousSwiper = () => {
       >
         {skills.map((item) => (
           <SwiperSlide key={item.skillId}>
-            <div className="flex flex-col items-center justify-center rounded-xl p-4 shadow-lg bg-gray-100 h-[300px] "
+            <div className="flex flex-col items-center justify-center rounded-xl p-4 shadow-lg h-[300px] "
               onClick={() => {
                 console.log(item.skillId)
               navigate(`allcourse/${item.skillId}`)
@@ -39,7 +39,7 @@ const ContinuousSwiper = () => {
                 alt={item.skillName}
                 className="w-full h-40 object-cover rounded-lg mb-2"
               />
-              <p className=" text-center text-2xl text-black font-bold">
+              <p className=" text-center text-2xl  font-bold">
                 {item.skillName}
               </p>
             </div>

@@ -40,12 +40,43 @@ const links = (
     </li>
     <li>
       <NavLink
-        to="/allcourse"
+        to="/services"
         className={({ isActive }) => (isActive ? active : undefined)}
       >
-        All Course
+        All Services
       </NavLink>
     </li>
+
+    {user && (
+      <li>
+        <NavLink
+          to="/myservices"
+          className={({ isActive }) => (isActive ? active : undefined)}
+        >
+          My Services
+        </NavLink>
+      </li>
+    )}
+     {user && (
+      <li>
+        <NavLink
+          to="/serviceAdd"
+          className={({ isActive }) => (isActive ? active : undefined)}
+        >
+          Add Service
+        </NavLink>
+      </li>
+    )}
+      {user && (
+      <li>
+        <NavLink
+          to="/mybookings"
+          className={({ isActive }) => (isActive ? active : undefined)}
+        >
+          My Bookings
+        </NavLink>
+      </li>
+    )}
 
     {user && (
       <li>
@@ -53,7 +84,7 @@ const links = (
           to="/myprofile"
           className={({ isActive }) => (isActive ? active : undefined)}
         >
-          My Profile
+          My Profile 
         </NavLink>
       </li>
     )}

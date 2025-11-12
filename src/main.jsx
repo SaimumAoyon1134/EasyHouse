@@ -9,13 +9,14 @@ import Register from "./Register.jsx";
 import AuthProvider from "./AuthProvider.jsx";
 import UpdateProfile from "./UpdateProfile.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
-import Order from "./Order.jsx";
 import MyProfile from "./MyProfile.jsx";
-import AllCourse from "./AllCourse.jsx";
-import SkillDetails from "./SkillDetails.jsx";
 import ForgetPassword from "./ForgotPassword.jsx";
-import Loading from "./Loading.jsx";
 import Invalid from "./Invalid.jsx";
+import Services from "./Services.jsx";
+import ServiceDetails from "./ServiceDetails.jsx";
+import AddService from "./AddService.jsx";
+import MyBookings from "./MyBookings.jsx";
+import MyServices from "./MyServices.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,18 +27,27 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "update", element: <UpdateProfile /> },
-      { path: "allcourse", element: <AllCourse /> },
+      { path: "services", element: <Services /> },
+      { path: "myservices", element: <MyServices /> },
       {
-        path: "allcourse/:id",
+        path: "services/:id",
         element: (
           <PrivateRoute>
-            <SkillDetails />
+            <ServiceDetails />
           </PrivateRoute>
         ),
       },
+      {
+        path: "serviceAdd",
+        element: <AddService />,
+      },
+      {
+        path: "mybookings",
+        element: <MyBookings />,
+      },
       { path: "myprofile", element: <MyProfile /> },
       { path: "forget-password", element: <ForgetPassword /> },
-      { path: "*", element: <Invalid/>},
+      { path: "*", element: <Invalid /> },
     ],
   },
 ]);
@@ -45,9 +55,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-     
-        <RouterProvider router={router} />
-   
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>
 );
