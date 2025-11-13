@@ -33,7 +33,7 @@ const ProviderServices = () => {
   const fetchServices = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/services?email=${user.email}`
+        `http://localhost:3000/myservices?email=${user.email}`
       );
       const data = await response.json();
       setServices(data);
