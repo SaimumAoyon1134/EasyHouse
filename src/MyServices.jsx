@@ -213,7 +213,7 @@ const ProviderServices = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
-              className="bg-gradient-to-r from-[#6A11CB] to-[#2575FC] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6"
+              className="bg-gray-400 rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6"
             >
               <form onSubmit={handleUpdate} className="space-y-4">
                 <input
@@ -222,7 +222,7 @@ const ProviderServices = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Name"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-black text-white w-full"
                   required
                 />
                 <input
@@ -231,16 +231,17 @@ const ProviderServices = () => {
                   value={formData.category}
                   onChange={handleChange}
                   placeholder="Category"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-black text-white w-full"
                   required
                 />
                 <input
-                  type="number"
+                  type="number" 
+                  
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
                   placeholder="Price"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-black text-white  w-full"
                   required
                 />
                 <input
@@ -249,27 +250,27 @@ const ProviderServices = () => {
                   value={formData.image}
                   onChange={handleChange}
                   placeholder="Image URL"
-                  className="input input-bordered w-full"
+                  className="input input-bordered bg-black text-white w-full"
                 />
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Description"
-                  className="textarea textarea-bordered w-full"
+                  className="textarea textarea-bordered w-full bg-black text-white "
                   required
                 />
-                <div className="flex  sm:flex-row justify-between mt-4 gap-2">
+                <div className="flex  sm:flex-row justify-between  mt-4 gap-2">
                   <button
                     type="submit"
-                    className="btn btn-neutral border-neutral flex-1"
+                    className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white flex-1"
                   >
                     Update
                   </button>
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="btn btn-neutral flex-1"
+                    className="btn bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white flex-1"
                   >
                     Cancel
                   </button>

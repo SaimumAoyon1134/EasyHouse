@@ -74,7 +74,7 @@ const MyProfile = () => {
         <div className="flex justify-center mt-8">
           <button
             onClick={() => navigate("/update")}
-            className="px-6 py-2 rounded-full font-semibold bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white shadow-lg hover:scale-105 transition-transform duration-200"
+            className="px-6 py-2  font-semibold bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Update Profile
           </button>

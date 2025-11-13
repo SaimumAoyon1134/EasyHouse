@@ -107,10 +107,10 @@ const Login = () => {
                   </button>
                 </p>
 
-                <button className="btn btn-neutral mt-4">Login</button>
+                <button className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white mt-4">Login</button>
                 <button
                   type="button"
-                  className="btn btn-neutral mt-4 flex items-center justify-center gap-2"
+                  className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white mt-4 flex items-center justify-center gap-2"
                   onClick={handleSignGoogle}
                 >
                   <FaGoogle /> Login With Google

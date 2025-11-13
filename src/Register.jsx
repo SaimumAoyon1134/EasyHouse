@@ -99,10 +99,10 @@ const Register = () => {
                   placeholder="Your Image URL"
                   name="image"
                 />
-                <button className="btn btn-neutral mt-4">Register</button>
+                <button className="btn  mt-4 bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white">Register</button>
                 <button
                   type="button"
-                  className="btn btn-neutral mt-4 flex items-center justify-center gap-2"
+                  className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white mt-4 flex items-center justify-center gap-2"
                   onClick={handleSignGoogle}
                 >
                   <FaGoogle /> Sign Up With Google

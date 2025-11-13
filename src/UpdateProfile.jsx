@@ -52,7 +52,7 @@ const UpdateProfile = () => {
                 required
               />
 
-              <button className="btn btn-neutral mt-4">Update </button>
+              <button className="btn bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white mt-4">Update </button>
             </fieldset>
           </form>
         </div>

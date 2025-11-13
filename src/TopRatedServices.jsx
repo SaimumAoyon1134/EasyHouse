@@ -67,7 +67,7 @@ const TopRatedServices = () => {
             </div>
           ))
         ) : (
-          <p>No top-rated services found.</p>
+          <p>Loading...</p>
         )}
       </div>
     </div>

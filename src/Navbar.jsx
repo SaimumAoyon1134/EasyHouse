@@ -156,16 +156,16 @@ const links = (
               </div>
             </div>
 
-            <button onClick={onClickSignOut} className="btn btn-neutral">
+            <button onClick={onClickSignOut} className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white">
               Sign Out
             </button>
           </>
         ) : (
           <div className="flex flex-row space-x-1">
-            <button onClick={onClickLogin} className="btn btn-neutral ">
+            <button onClick={onClickLogin} className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white">
               Login
             </button>
-            <button onClick={onClickSignUp} className="btn btn-neutral ">
+            <button onClick={onClickSignUp} className="btn l bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white ">
               Sign Up
             </button>
           </div>
