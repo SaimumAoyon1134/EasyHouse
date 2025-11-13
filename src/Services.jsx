@@ -10,9 +10,9 @@ const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000000]); 
+  const [priceRange, setPriceRange] = useState([0, 100000]); 
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [debouncedPriceRange, setDebouncedPriceRange] = useState([0, 1000000]);
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState([0, 100000]);
   const navigate = useNavigate();
 
 
@@ -79,7 +79,7 @@ const Services = () => {
           <Range
             step={1000}
             min={0}
-            max={1000000}
+            max={100000}
             values={priceRange}
             onChange={(values) => setPriceRange(values)}
             renderTrack={({ props, children }) => (
@@ -90,8 +90,8 @@ const Services = () => {
                 <div
                   className="absolute h-2 bg-green-500 rounded"
                   style={{
-                    left: `${(priceRange[0] / 1000000) * 100}%`,
-                    width: `${((priceRange[1] - priceRange[0]) / 1000000) * 100}%`,
+                    left: `${(priceRange[0] / 100000) * 100}%`,
+                    width: `${((priceRange[1] - priceRange[0]) / 100000) * 100}%`,
                   }}
                 />
                 {children}

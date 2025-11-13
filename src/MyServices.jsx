@@ -97,9 +97,22 @@ const ProviderServices = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
-    if (!window.confirm("Are you sure you want to delete this service?"))
-      return;
+
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "This action will permanently delete the service!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+  });
+
+  if (!result.isConfirmed) {
+    Swal.fire("Cancelled", "Your service was not deleted.", "info");
+    return;
+  }
     try {
       const response = await fetch(`http://localhost:3000/services/${id}`, {
         method: "DELETE",

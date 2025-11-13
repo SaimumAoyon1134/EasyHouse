@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "./AuthContext";
 import Swal from "sweetalert2";
+import BookingReview from "./BookingReview";
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -46,7 +47,7 @@ const ServiceDetails = () => {
     const result = await Swal.fire({
       title: "Confirm Booking",
       html: `
-        <p>Do you want to book <strong>${service.name}</strong> for <strong>$${service.price}</strong>?</p>
+        <p>Do you want to book <strong>${service.name}</strong> for <strong>${service.price} BDT </strong> on <strong>${ new Date().toISOString().split("T")[0]}</strong>?</p>
       `,
       icon: "question",
       showCancelButton: true,
@@ -66,7 +67,7 @@ const ServiceDetails = () => {
         serviceId: service._id,
         serviceName: service.name,
         userEmail: user.email,
-        userName: user.displayName || "Anonymous",
+        userName: user.displayName ,
         price: service.price,
         bookedAt: new Date().toISOString(),
       };
@@ -139,6 +140,34 @@ const ServiceDetails = () => {
           </div>
         </div>
       </div>
+       <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-2">Reviews</h3>
+        {service.reviews && service.reviews.length > 0 ? (
+          <div className="space-y-3">
+            {service.reviews.map((rev, idx) => (
+              <div key={idx} className="border p-2 rounded">
+                <div className="flex items-center mb-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={`text-lg ${star <= rev.rating ? "text-yellow-400" : "text-gray-300"}`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                  <span className="ml-2 text-sm">{rev.userEmail}</span>
+                </div>
+                <p>{rev.comment}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No reviews yet</p>
+        )}
+      </div>
+
+    
+    
     </div>
   );
 };

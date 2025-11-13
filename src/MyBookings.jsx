@@ -2,11 +2,15 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
-
+import BookingReview from "./BookingReview";
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import CancelIcon from '@mui/icons-material/Cancel';
+import Loading from "./Loading";
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeReview, setActiveReview] = useState(null); // holds booking to review
 
   const fetchBookings = async () => {
     if (!user?.email) return;
@@ -58,7 +62,7 @@ const MyBookings = () => {
     }
   };
 
-  if (loading) return <div>Loading your bookings...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -87,16 +91,54 @@ const MyBookings = () => {
                 <span className="font-semibold">Booked At:</span>{" "}
                 {new Date(booking.bookedAt).toLocaleString()}
               </p>
-              <div className="w-full flex justify-center">
+
+              {/* Review Button */}
+             <div className="flex justify-between">
+               {user && (
+                <button
+                  onClick={() => setActiveReview(booking)}
+                  className="mt-4 w-2/5 py-2 px-4 btn rounded border  hover:bg-green-500 transition"
+                >
+                  <RateReviewIcon/>Review
+                </button>
+              )}
+
+              <div className="w-2/5 flex justify-center mt-3">
                 <button
                   onClick={() => handleCancel(booking._id)}
-                  className="btn btn-primary mt-3 w-full"
+                  className="btn  w-full rounded border  hover:bg-green-500 transition"
                 >
-                  Cancel Booking
+                 <CancelIcon/> Cancel 
                 </button>
               </div>
+             </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Review Modal */}
+      {activeReview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50">
+          <div className=" rounded-lg shadow-lg p-6 w-11/12 max-w-md bg-gray-500 relative">
+            <h3 className="text-xl font-bold mb-4">
+              Review: {activeReview.serviceName}
+            </h3>
+
+            <BookingReview
+              serviceId={activeReview.serviceId}
+              userEmail={user.email}
+              setActiveReview={setActiveReview}
+              onClose={() => setActiveReview(null)}
+            />
+
+            <button
+              onClick={() => setActiveReview(null)}
+              className="absolute top-2 right-2 text-white hover:text-red-600 font-bold text-xl"
+            >
+              &times;
+            </button>
+          </div>
         </div>
       )}
     </div>

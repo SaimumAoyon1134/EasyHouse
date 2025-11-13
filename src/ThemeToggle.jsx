@@ -16,10 +16,10 @@ const ThemeToggle = () => {
 
   return (
     <label className="swap swap-rotate">
-      {/* this is a checkbox */}
+  
       <input type="checkbox" onChange={toggleTheme} checked={theme === "dark"} />
 
-      {/* Sun icon */}
+
       <svg
         className="swap-on w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ const ThemeToggle = () => {
         />
       </svg>
 
-      {/* Moon icon */}
+ 
       <svg
         className="swap-off w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"

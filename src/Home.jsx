@@ -2,8 +2,10 @@ import React, { useContext } from 'react'
 import { AuthContext } from './AuthContext'
 import ContinuousSwiper from './ContinuousSwiper';
 import Loading from './Loading';
-import PopularCategories from './PopularCategories';
+
 import "animate.css"
+import TopRatedServices from './TopRatedServices';
+import StaticSections from './StaticSection';
 
 
 
@@ -18,7 +20,8 @@ const Home = () => {
   return (
     <div className="animate__animated animate__fadeInLeft">
       <ContinuousSwiper />
-      <PopularCategories />
+      <TopRatedServices/>
+      <StaticSections/>
   
     
     </div>
