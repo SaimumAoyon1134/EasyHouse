@@ -15,7 +15,9 @@ const ServiceDetails = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/services/${id}`);
+        const res = await fetch(
+          `https://skill-development-backend.vercel.app/services/${id}`
+        );
         if (!res.ok) throw new Error("Failed to fetch service details");
         const data = await res.json();
         setService(data);
@@ -47,7 +49,11 @@ const ServiceDetails = () => {
     const result = await Swal.fire({
       title: "Confirm Booking",
       html: `
-        <p>Do you want to book <strong>${service.name}</strong> for <strong>${service.price} BDT </strong> on <strong>${ new Date().toISOString().split("T")[0]}</strong>?</p>
+        <p>Do you want to book <strong>${service.name}</strong> for <strong>${
+        service.price
+      } BDT </strong> on <strong>${
+        new Date().toISOString().split("T")[0]
+      }</strong>?</p>
       `,
       icon: "question",
       showCancelButton: true,
@@ -67,16 +73,19 @@ const ServiceDetails = () => {
         serviceId: service._id,
         serviceName: service.name,
         userEmail: user.email,
-        userName: user.displayName ,
+        userName: user.displayName,
         price: service.price,
         bookedAt: new Date().toISOString(),
       };
 
-      const res = await fetch("http://localhost:3000/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
-      });
+      const res = await fetch(
+        "https://skill-development-backend.vercel.app/bookings",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingData),
+        }
+      );
 
       if (res.ok) {
         Swal.fire(
@@ -112,7 +121,10 @@ const ServiceDetails = () => {
       <div className="flex border flex-col md:flex-row shadow-xl rounded-2xl overflow-hidden">
         <div className="md:w-1/2">
           <img
-            src={service.image || "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"}
+            src={
+              service.image ||
+              "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"
+            }
             alt={service.name}
             className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
           />
@@ -125,7 +137,9 @@ const ServiceDetails = () => {
           </p>
           <p className="text-lg mb-2">
             <span className="font-semibold">Provider:</span>{" "}
-            <span className="text-green-600 font-bold">{service.providerName}</span>
+            <span className="text-green-600 font-bold">
+              {service.providerName}
+            </span>
           </p>
           <p className="text-sm mb-4">📧 {service.email}</p>
           <p className="text-2xl font-semibold text-green-600 mb-4">
@@ -140,7 +154,7 @@ const ServiceDetails = () => {
           </div>
         </div>
       </div>
-       <div className="mb-6">
+      <div className="mb-6">
         <h3 className="text-lg font-semibold mb-2">Reviews</h3>
         {service.reviews && service.reviews.length > 0 ? (
           <div className="space-y-3">
@@ -150,7 +164,9 @@ const ServiceDetails = () => {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
-                      className={`text-lg ${star <= rev.rating ? "text-yellow-400" : "text-gray-300"}`}
+                      className={`text-lg ${
+                        star <= rev.rating ? "text-yellow-400" : "text-gray-300"
+                      }`}
                     >
                       ★
                     </span>
@@ -165,9 +181,6 @@ const ServiceDetails = () => {
           <p>No reviews yet</p>
         )}
       </div>
-
-    
-    
     </div>
   );
 };

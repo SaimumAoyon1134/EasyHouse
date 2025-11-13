@@ -8,7 +8,9 @@ const TopRatedServices = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:3000/services");
+        const res = await fetch(
+          "https://skill-development-backend.vercel.app/services"
+        );
         const data = await res.json();
 
         if (!Array.isArray(data)) {
@@ -17,10 +19,11 @@ const TopRatedServices = () => {
         }
 
         // Calculate avgRating for each service
-        const servicesWithRating = data.map(service => {
+        const servicesWithRating = data.map((service) => {
           const avgRating =
             service.reviews && service.reviews.length
-              ? service.reviews.reduce((sum, r) => sum + r.rating, 0) / service.reviews.length
+              ? service.reviews.reduce((sum, r) => sum + r.rating, 0) /
+                service.reviews.length
               : 0;
           return { ...service, avgRating };
         });
@@ -45,7 +48,7 @@ const TopRatedServices = () => {
       <h2 className="text-2xl font-bold mb-4">Top Rated Services</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.length > 0 ? (
-          services.map(service => (
+          services.map((service) => (
             <div
               key={service._id}
               onClick={() => navigate(`/service/${service._id}`)}
@@ -57,7 +60,10 @@ const TopRatedServices = () => {
                 className="w-full h-40 object-cover mb-2 rounded"
               />
               <h3 className="font-semibold">{service.name}</h3>
-              <p>Average Rating: {service.avgRating.toFixed(1)} <span className="text-orange-400">★</span></p>
+              <p>
+                Average Rating: {service.avgRating.toFixed(1)}{" "}
+                <span className="text-orange-400">★</span>
+              </p>
             </div>
           ))
         ) : (

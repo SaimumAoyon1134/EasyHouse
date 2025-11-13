@@ -17,7 +17,7 @@ const MyBookings = () => {
     if (!user?.email) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/bookings?userEmail=${user.email}`
+        `https://skill-development-backend.vercel.app/bookings?userEmail=${user.email}`
       );
       if (!res.ok) throw new Error("Failed to fetch bookings");
       const data = await res.json();
@@ -49,9 +49,12 @@ const MyBookings = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://skill-development-backend.vercel.app/bookings/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (res.ok) {
         setBookings((prev) => prev.filter((b) => b._id !== id));
@@ -92,9 +95,7 @@ const MyBookings = () => {
                   className="border-t hover:scale-[1.03] transition"
                 >
                   <td className="py-3 px-4">{booking.serviceName}</td>
-                  <td className="py-3 px-4">
-                    {booking.userName }
-                  </td>
+                  <td className="py-3 px-4">{booking.userName}</td>
                   <td className="py-3 px-4">${booking.price}</td>
                   <td className="py-3 px-4">
                     {new Date(booking.bookedAt).toLocaleDateString()}

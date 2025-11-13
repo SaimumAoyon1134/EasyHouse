@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const ContinuousSwiper = () => {
   const navigate = useNavigate();
@@ -12,7 +13,9 @@ const ContinuousSwiper = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:3000/services");
+        const res = await fetch(
+          "https://skill-development-backend.vercel.app/services"
+        );
         if (!res.ok) throw new Error("Failed to fetch services");
         const data = await res.json();
         setServices(data);
@@ -25,7 +28,7 @@ const ContinuousSwiper = () => {
     fetchServices();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="my-10">
@@ -54,20 +57,21 @@ const ContinuousSwiper = () => {
               onClick={() => navigate(`/service/${item._id}`)}
             >
               <img
-                src={item.image || "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"}
+                src={
+                  item.image ||
+                  "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"
+                }
                 alt={item.name}
                 className="w-full h-40 object-cover rounded-lg mb-2"
               />
               <p className="text-center text-2xl font-bold">{item.name}</p>
-              <p
-  className=" text-sm mb-4 text-center h-12 flex items-center justify-center"
->
-  {item.description
-    ? item.description.length > 100
-      ? `${item.description.slice(0, 100)}...`
-      : item.description
-    : "No description"}
-</p>
+              <p className=" text-sm mb-4 text-center h-12 flex items-center justify-center">
+                {item.description
+                  ? item.description.length > 100
+                    ? `${item.description.slice(0, 100)}...`
+                    : item.description
+                  : "No description"}
+              </p>
             </div>
           </SwiperSlide>
         ))}

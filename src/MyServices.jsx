@@ -33,7 +33,7 @@ const ProviderServices = () => {
   const fetchServices = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/myservices?email=${user.email}`
+        `https://skill-development-backend.vercel.app/myservices?email=${user.email}`
       );
       const data = await response.json();
       setServices(data);
@@ -73,7 +73,7 @@ const ProviderServices = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/services/${selectedService._id}`,
+        `https://skill-development-backend.vercel.app/services/${selectedService._id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -97,26 +97,28 @@ const ProviderServices = () => {
   };
 
   const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the service!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    });
 
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "This action will permanently delete the service!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "Cancel",
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-  });
-
-  if (!result.isConfirmed) {
-    Swal.fire("Cancelled", "Your service was not deleted.", "info");
-    return;
-  }
+    if (!result.isConfirmed) {
+      Swal.fire("Cancelled", "Your service was not deleted.", "info");
+      return;
+    }
     try {
-      const response = await fetch(`http://localhost:3000/services/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://skill-development-backend.vercel.app/services/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.ok) {
         toast.success("Service deleted successfully!");
         fetchServices();
@@ -190,7 +192,7 @@ const ProviderServices = () => {
               </button>
               <button
                 onClick={() => handleDelete(service._id)}
-                className="btn btn-sm btn-error flex-1" 
+                className="btn btn-sm btn-error flex-1"
               >
                 Delete
               </button>

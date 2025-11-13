@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "my-application-40e3b"
-  }
+    "default": "easyhouse-f443f"
+  },
+  "targets": {},
+  "etags": {}
 }
