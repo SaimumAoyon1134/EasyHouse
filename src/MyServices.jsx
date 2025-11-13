@@ -259,7 +259,7 @@ const ProviderServices = () => {
                   className="textarea textarea-bordered w-full"
                   required
                 />
-                <div className="flex flex-col sm:flex-row justify-between mt-4 gap-2">
+                <div className="flex  sm:flex-row justify-between mt-4 gap-2">
                   <button
                     type="submit"
                     className="btn btn-neutral border-neutral flex-1"
