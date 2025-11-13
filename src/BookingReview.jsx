@@ -31,7 +31,7 @@ const BookingReview = ({ serviceId, userEmail,setActiveReview }) => {
         {[1,2,3,4,5].map((star) => (
           <span
             key={star}
-            className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
+            className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-400"}`}
             onClick={() => setRating(star)}
           >★</span>
         ))}

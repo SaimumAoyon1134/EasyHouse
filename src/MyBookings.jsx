@@ -126,7 +126,7 @@ const MyBookings = () => {
       {activeReview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
           <div className="rounded-lg shadow-lg p-6 w-11/12 max-w-md  relative">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">
+            <h3 className="text-xl font-bold mb-4">
               Review: {activeReview.serviceName}
             </h3>
 
@@ -139,7 +139,7 @@ const MyBookings = () => {
 
             <button
               onClick={() => setActiveReview(null)}
-              className="absolute top-2 right-2  hover:text-red-600 font-bold text-xl"
+              className="absolute top-2 right-2 text-green-600 font-extrabold hover:text-red-600 font-bold text-xl"
             >
               &times;
             </button>
