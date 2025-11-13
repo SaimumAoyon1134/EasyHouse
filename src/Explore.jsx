@@ -8,7 +8,7 @@ const Explore = () => {
 
   return (
     <div className="flex justify-center items-center my-10">
-      {/* framer  */}
+     
       <motion.button
         onClick={() => navigate("/services")}
         className="px-8 py-3 rounded-full bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white font-semibold shadow-lg hover:shadow-xl focus:outline-none"
