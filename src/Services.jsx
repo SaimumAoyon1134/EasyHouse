@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import { AuthContext } from "./AuthContext"; // for logged-in user
 import { toast } from "react-hot-toast";
-
+import Swal from "sweetalert2";
+import Loading from "./Loading"
 const Services = () => {
   const { user } = useContext(AuthContext);
   const [services, setServices] = useState([]);
@@ -42,6 +43,28 @@ const Services = () => {
       toast.error("You must be logged in to book a service");
       return;
     }
+    if (user.email === selectedService.email) {
+      Swal.fire("Warning", "Failed to book service. You can not book your own service!!!", "error");
+      return;
+    }
+    const result = await Swal.fire({
+      title: "Confirm Booking",
+      html: `
+      <p>Do you want to book <strong>${selectedService.name}</strong> for <strong>$${selectedService.price}</strong>?</p>
+    `,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, book it!",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#16a34a",
+      cancelButtonColor: "#d33",
+    });
+
+    if (!result.isConfirmed) {
+      Swal.fire("Booking cancelled", "", "info");
+      return;
+    }
+
     try {
       const bookingData = {
         serviceId: selectedService._id,
@@ -59,18 +82,22 @@ const Services = () => {
       });
 
       if (res.ok) {
-        toast.success("Service booked successfully!");
+        Swal.fire(
+          "Booked!",
+          "Your service has been successfully booked.",
+          "success"
+        );
         closeModal();
       } else {
-        toast.error("Failed to book service");
+        Swal.fire("Error", "Failed to book service. Try again later.", "error");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong! " + err.message);
+      Swal.fire("Error", "Something went wrong: " + err.message, "error");
     }
   };
 
-  if (loading) return <div>Loading services...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -124,14 +151,13 @@ const Services = () => {
               animate={{ scale: 1 }}
               exit={{ scale: 0.7 }}
             >
-              <button
-                onClick={closeModal}
-                className="absolute top-3 right-3"
-              >
+              <button onClick={closeModal} className="absolute top-3 right-3">
                 <CloseIcon />
               </button>
 
-              <h3 className="text-2xl font-bold mb-4 ">{selectedService.name}</h3>
+              <h3 className="text-2xl font-bold mb-4 ">
+                {selectedService.name}
+              </h3>
               <img
                 src={selectedService.image || "https://via.placeholder.com/300"}
                 alt={selectedService.name}
@@ -142,7 +168,8 @@ const Services = () => {
                 {selectedService.category}
               </p>
               <p className="mb-2">
-                <span className="font-semibold">Price:</span> ${selectedService.price}
+                <span className="font-semibold">Price:</span> $
+                {selectedService.price}
               </p>
               <p className="mb-2">
                 <span className="font-semibold">Description:</span>{" "}
@@ -153,12 +180,10 @@ const Services = () => {
                 {selectedService.providerName}
               </p>
               <p className="mb-4">
-                <span className="font-semibold">Email:</span> {selectedService.email}
+                <span className="font-semibold">Email:</span>{" "}
+                {selectedService.email}
               </p>
-              <button
-                onClick={handleBook}
-                className="btn btn-success w-full"
-              >
+              <button onClick={handleBook} className="btn btn-success w-full">
                 Book Service
               </button>
             </motion.div>

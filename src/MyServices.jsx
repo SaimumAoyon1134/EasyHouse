@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
+import Swal from "sweetalert2";
 
 const ProviderServices = () => {
   const { user } = useContext(AuthContext);
@@ -18,6 +19,17 @@ const ProviderServices = () => {
     description: "",
   });
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
   const fetchServices = async () => {
     try {
       const response = await fetch(
@@ -69,7 +81,10 @@ const ProviderServices = () => {
         }
       );
       if (response.ok) {
-        toast.success("Service updated successfully!");
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
         fetchServices();
         closeModal();
       } else {
@@ -82,7 +97,7 @@ const ProviderServices = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id)
+    console.log(id);
     if (!window.confirm("Are you sure you want to delete this service?"))
       return;
     try {
@@ -185,7 +200,6 @@ const ProviderServices = () => {
               exit={{ scale: 0 }}
               className="bg-[#001931] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6"
             >
-            
               <form onSubmit={handleUpdate} className="space-y-4">
                 <input
                   type="text"
@@ -231,9 +245,11 @@ const ProviderServices = () => {
                   required
                 />
                 <div className="flex flex-col sm:flex-row justify-between mt-4 gap-2">
-                  <button type="submit" className="btn btn-neutral border-neutral flex-1">
+                  <button
+                    type="submit"
+                    className="btn btn-neutral border-neutral flex-1"
+                  >
                     Update
-    
                   </button>
                   <button
                     type="button"
