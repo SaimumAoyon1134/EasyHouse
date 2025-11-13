@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import skills from "../skills";
 import { useNavigate } from "react-router-dom";
 
 const ContinuousSwiper = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/services");
+        if (!res.ok) throw new Error("Failed to fetch services");
+        const data = await res.json();
+        setServices(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className="my-10">
       <Swiper
@@ -27,21 +47,18 @@ const ContinuousSwiper = () => {
           1280: { slidesPerView: 4 },
         }}
       >
-        {skills.map((item) => (
-          <SwiperSlide key={item.skillId}>
-            <div className="flex flex-col items-center justify-center rounded-xl p-4 shadow-lg h-[300px] "
-              onClick={() => {
-                console.log(item.skillId)
-              navigate(`allcourse/${item.skillId}`)
-            }}>
+        {services.map((item) => (
+          <SwiperSlide key={item._id}>
+            <div
+              className="flex flex-col items-center justify-center rounded-xl p-4 shadow-lg h-[300px] cursor-pointer"
+              onClick={() => navigate(`/service/${item._id}`)}
+            >
               <img
-                src={item.image}
-                alt={item.skillName}
+                src={item.image || "https://via.placeholder.com/150"}
+                alt={item.name}
                 className="w-full h-40 object-cover rounded-lg mb-2"
               />
-              <p className=" text-center text-2xl  font-bold">
-                {item.skillName}
-              </p>
+              <p className="text-center text-2xl font-bold">{item.name}</p>
             </div>
           </SwiperSlide>
         ))}

@@ -48,6 +48,7 @@ const router = createBrowserRouter([
       { path: "myprofile", element: <MyProfile /> },
       { path: "forget-password", element: <ForgetPassword /> },
       { path: "*", element: <Invalid /> },
+      {path:"service/:id", element:<PrivateRoute><ServiceDetails /></PrivateRoute>},
     ],
   },
 ]);

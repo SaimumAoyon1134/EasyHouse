@@ -1,107 +1,114 @@
 import React, { useEffect, useState, useContext } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import CloseIcon from "@mui/icons-material/Close";
-import { AuthContext } from "./AuthContext"; // for logged-in user
+import { AuthContext } from "./AuthContext";
 import { toast } from "react-hot-toast";
-import Swal from "sweetalert2";
-import Loading from "./Loading"
+import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
+import { Range } from "react-range";
+
 const Services = () => {
   const { user } = useContext(AuthContext);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedService, setSelectedService] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 1000000]); 
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState([0, 1000000]);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setDebouncedPriceRange(priceRange);
+    }, 1000);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, priceRange]);
+
 
   useEffect(() => {
     const fetchServices = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("http://localhost:3000/services");
+        const params = new URLSearchParams();
+        if (debouncedSearch) params.append("search", debouncedSearch);
+        if (debouncedPriceRange[0] !== null) params.append("minPrice", debouncedPriceRange[0]);
+        if (debouncedPriceRange[1] !== null) params.append("maxPrice", debouncedPriceRange[1]);
+        console.log(params)
+        const url =
+          params.toString().length > 0
+            ? `http://localhost:3000/services?${params.toString()}`
+            : "http://localhost:3000/services";
+
+        const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch services");
         const data = await res.json();
+        console.log(data)
         setServices(data);
       } catch (err) {
         console.error(err);
+        toast.error("Failed to load services");
       } finally {
         setLoading(false);
       }
     };
+
     fetchServices();
-  }, []);
+  }, [debouncedSearch, debouncedPriceRange]);
 
-  const openModal = (service) => {
-    setSelectedService(service);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedService(null);
-    setModalOpen(false);
-  };
-
-  const handleBook = async () => {
-    if (!user) {
-      toast.error("You must be logged in to book a service");
-      return;
-    }
-    if (user.email === selectedService.email) {
-      Swal.fire("Warning", "Failed to book service. You can not book your own service!!!", "error");
-      return;
-    }
-    const result = await Swal.fire({
-      title: "Confirm Booking",
-      html: `
-      <p>Do you want to book <strong>${selectedService.name}</strong> for <strong>$${selectedService.price}</strong>?</p>
-    `,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes, book it!",
-      cancelButtonText: "Cancel",
-      confirmButtonColor: "#16a34a",
-      cancelButtonColor: "#d33",
-    });
-
-    if (!result.isConfirmed) {
-      Swal.fire("Booking cancelled", "", "info");
-      return;
-    }
-
-    try {
-      const bookingData = {
-        serviceId: selectedService._id,
-        serviceName: selectedService.name,
-        userEmail: user.email,
-        userName: user.displayName || "Anonymous",
-        price: selectedService.price,
-        bookedAt: new Date().toISOString(),
-      };
-
-      const res = await fetch("http://localhost:3000/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
-      });
-
-      if (res.ok) {
-        Swal.fire(
-          "Booked!",
-          "Your service has been successfully booked.",
-          "success"
-        );
-        closeModal();
-      } else {
-        Swal.fire("Error", "Failed to book service. Try again later.", "error");
-      }
-    } catch (err) {
-      console.error(err);
-      Swal.fire("Error", "Something went wrong: " + err.message, "error");
-    }
-  };
-
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
 
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6 text-center">All Services</h2>
+
+   
+      <div className="flex flex-col sm:flex-row gap-6 mb-6 justify-center items-center">
+        <input
+          type="text"
+          placeholder="Search by name or category..."
+          className="input input-bordered w-full max-w-md"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <div className="w-full max-w-md px-2 relative">
+          <p className="text-sm font-medium mb-1">
+            Price Range: ${priceRange[0].toLocaleString()} - ${priceRange[1].toLocaleString()}
+          </p>
+          <Range
+            step={1000}
+            min={0}
+            max={1000000}
+            values={priceRange}
+            onChange={(values) => setPriceRange(values)}
+            renderTrack={({ props, children }) => (
+              <div
+                {...props}
+                className="h-2 w-full bg-gray-300 rounded relative"
+              >
+                <div
+                  className="absolute h-2 bg-green-500 rounded"
+                  style={{
+                    left: `${(priceRange[0] / 1000000) * 100}%`,
+                    width: `${((priceRange[1] - priceRange[0]) / 1000000) * 100}%`,
+                  }}
+                />
+                {children}
+              </div>
+            )}
+            renderThumb={({ props, index }) => (
+              <div {...props} className="relative flex flex-col items-center">
+              
+                <div className="absolute top-6 right-3 w-max px-2 py-1 bg-green-500 text-white text-xs rounded shadow-lg whitespace-nowrap">
+                  {priceRange[index].toLocaleString()}
+                </div>
+                <div className="h-6 w-6 bg-green-500 rounded-full shadow-lg" />
+              </div>
+            )}
+          />
+        </div>
+      </div>
 
       {services.length === 0 ? (
         <p>No services found.</p>
@@ -110,25 +117,25 @@ const Services = () => {
           {services.map((service) => (
             <div
               key={service._id}
-              className="p-4 rounded shadow-md  hover:shadow-lg hover:scale-[1.04] transition"
+              className="p-4 rounded shadow-md hover:shadow-lg hover:scale-[1.04] transition"
             >
               <img
-                src={service.image || "https://via.placeholder.com/150"}
+                src={service.image }
                 alt={service.name}
                 className="w-full h-40 object-cover mb-4 rounded"
               />
               <h3 className="text-xl font-semibold">{service.name}</h3>
               <div className="flex justify-between mt-2 mb-2">
-                <div className="bg-green-500 py-1 px-2 rounded-2xl">
-                  <p className="text-white">{service.category}</p>
+                <div className="border-green-500 border py-1 px-2 rounded-2xl">
+                  <p>{service.category}</p>
                 </div>
                 <div>
-                  <p className="font-bold">${service.price}</p>
+                  <p className="font-bold">${service.price.toLocaleString()}</p>
                 </div>
               </div>
               <button
-                onClick={() => openModal(service)}
-                className="btn btn-primary w-full "
+                onClick={() => navigate(`/service/${service._id}`)}
+                className="btn btn-primary w-full"
               >
                 View Details
               </button>
@@ -136,60 +143,6 @@ const Services = () => {
           ))}
         </div>
       )}
-
-      <AnimatePresence>
-        {modalOpen && selectedService && (
-          <motion.div
-            className="fixed inset-0  flex justify-center items-center z-50 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className=" bg-[#001931] rounded-lg text-white shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative"
-              initial={{ scale: 0.7 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.7 }}
-            >
-              <button onClick={closeModal} className="absolute top-3 right-3">
-                <CloseIcon />
-              </button>
-
-              <h3 className="text-2xl font-bold mb-4 ">
-                {selectedService.name}
-              </h3>
-              <img
-                src={selectedService.image || "https://via.placeholder.com/300"}
-                alt={selectedService.name}
-                className="w-full h-48 object-cover rounded mb-4"
-              />
-              <p className="mb-2">
-                <span className="font-semibold">Category:</span>{" "}
-                {selectedService.category}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold">Price:</span> $
-                {selectedService.price}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold">Description:</span>{" "}
-                {selectedService.description}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold">Provider:</span>{" "}
-                {selectedService.providerName}
-              </p>
-              <p className="mb-4">
-                <span className="font-semibold">Email:</span>{" "}
-                {selectedService.email}
-              </p>
-              <button onClick={handleBook} className="btn btn-success w-full">
-                Book Service
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
