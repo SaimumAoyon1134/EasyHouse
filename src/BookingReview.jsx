@@ -40,6 +40,7 @@ const BookingReview = ({ serviceId, userEmail, setActiveReview }) => {
             onClick={() => setRating(star)}
           >
             ★
+            {/* ratting */}
           </span>
         ))}
       </div>
