@@ -165,8 +165,8 @@ const links = (
             <button onClick={onClickLogin} className="btn  bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white">
               Login
             </button>
-            <button onClick={onClickSignUp} className="btn l bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white ">
-              Sign Up
+            <button onClick={onClickSignUp} className="btn bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white ">
+              SignUp
             </button>
           </div>
         )}
