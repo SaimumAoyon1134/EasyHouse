@@ -3,19 +3,22 @@ import { AuthContext } from "./AuthContext";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import BookingReview from "./BookingReview";
-import RateReviewIcon from '@mui/icons-material/RateReview';
-import CancelIcon from '@mui/icons-material/Cancel';
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import CancelIcon from "@mui/icons-material/Cancel";
 import Loading from "./Loading";
+
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeReview, setActiveReview] = useState(null); 
+  const [activeReview, setActiveReview] = useState(null);
 
   const fetchBookings = async () => {
     if (!user?.email) return;
     try {
-      const res = await fetch(`http://localhost:3000/bookings?userEmail=${user.email}`);
+      const res = await fetch(
+        `http://localhost:3000/bookings?userEmail=${user.email}`
+      );
       if (!res.ok) throw new Error("Failed to fetch bookings");
       const data = await res.json();
       setBookings(data);
@@ -62,66 +65,68 @@ const MyBookings = () => {
     }
   };
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
 
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6 text-center">My Bookings</h2>
 
       {bookings.length === 0 ? (
-        <p>You have no bookings yet.</p>
+        <p className="text-center text-gray-600">You have no bookings yet.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bookings.map((booking) => (
-            <div
-              key={booking._id}
-              className="p-4 rounded shadow-md hover:shadow-lg transition"
-            >
-              <h3 className="text-xl font-semibold mb-2">
-                {booking.serviceName}
-              </h3>
-              <p>
-                <span className="font-semibold">Provider:</span>{" "}
-                {booking.userName || "N/A"}
-              </p>
-              <p>
-                <span className="font-semibold">Price:</span> ${booking.price}
-              </p>
-              <p>
-                <span className="font-semibold">Booked At:</span>{" "}
-                {new Date(booking.bookedAt).toLocaleString()}
-              </p>
-
-              {/* Review Button */}
-             <div className="flex justify-between">
-               {user && (
-                <button
-                  onClick={() => setActiveReview(booking)}
-                  className="mt-4 w-2/5 py-2 px-4 btn rounded border  hover:bg-green-500 transition"
+        <div className="overflow-x-auto rounded-lg shadow-md">
+          <table className="min-w-full  border border-gray-200">
+            <thead className="bg-gray-100 text-gray-700">
+              <tr>
+                <th className="py-3 px-4 text-left font-semibold">Service</th>
+                <th className="py-3 px-4 text-left font-semibold">Provider</th>
+                <th className="py-3 px-4 text-left font-semibold">Price</th>
+                <th className="py-3 px-4 text-left font-semibold">Booked At</th>
+                <th className="py-3 px-4 text-center font-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking) => (
+                <tr
+                  key={booking._id}
+                  className="border-t hover:scale-[1.03] transition"
                 >
-                  <RateReviewIcon/>Review
-                </button>
-              )}
-
-              <div className="w-2/5 flex justify-center mt-3">
-                <button
-                  onClick={() => handleCancel(booking._id)}
-                  className="btn  w-full rounded border  hover:bg-green-500 transition"
-                >
-                 <CancelIcon/> Cancel 
-                </button>
-              </div>
-             </div>
-            </div>
-          ))}
+                  <td className="py-3 px-4">{booking.serviceName}</td>
+                  <td className="py-3 px-4">
+                    {booking.userName }
+                  </td>
+                  <td className="py-3 px-4">${booking.price}</td>
+                  <td className="py-3 px-4">
+                    {new Date(booking.bookedAt).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4 flex flex-wrap gap-2 justify-center">
+                    {user && (
+                      <button
+                        onClick={() => setActiveReview(booking)}
+                        className="flex items-center gap-1 px-3 py-1 rounded border border-green-500 text-green-600 hover:bg-green-500 hover:text-white transition text-sm"
+                      >
+                        <RateReviewIcon fontSize="small" /> Review
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleCancel(booking._id)}
+                      className="flex items-center gap-1 px-3 py-1 rounded border border-red-500 text-red-600 hover:bg-red-500 hover:text-white transition text-sm"
+                    >
+                      <CancelIcon fontSize="small" /> Cancel
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
       {/* Review Modal */}
       {activeReview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50">
-          <div className=" rounded-lg shadow-lg p-6 w-11/12 max-w-md bg-gray-500 relative">
-            <h3 className="text-xl font-bold mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
+          <div className="rounded-lg shadow-lg p-6 w-11/12 max-w-md  relative">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">
               Review: {activeReview.serviceName}
             </h3>
 
@@ -134,7 +139,7 @@ const MyBookings = () => {
 
             <button
               onClick={() => setActiveReview(null)}
-              className="absolute top-2 right-2 text-white hover:text-red-600 font-bold text-xl"
+              className="absolute top-2 right-2  hover:text-red-600 font-bold text-xl"
             >
               &times;
             </button>
