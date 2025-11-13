@@ -30,43 +30,48 @@ const AddService = () => {
     setServiceData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    for (let key in serviceData) {
-      if (!serviceData[key]) {
-        toast.error(`${key} is required`);
-        return;
-      }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  for (let key in serviceData) {
+    if (!serviceData[key]) {
+      toast.error(`${key} is required`);
+      return;
     }
-    const mainData = { ...serviceData, image: serviceData.image || null };
-    try {
-      const response = await fetch(
-        "https://skill-development-backend.vercel.app/services",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(mainData),
-        }
-      );
-      if (response.ok) {
-        toast.success("Service added successfully!");
-        setServiceData((prev) => ({
-          ...prev,
-          name: "",
-          category: "",
-          price: "",
-          description: "",
-          image: "",
-        }));
-      } else {
-        toast.error("Failed to add service.");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong! " + error.message);
-    }
+  }
+
+  const mainData = {
+    ...serviceData,
+    image: serviceData.image || null,
+    price: Number(serviceData.price), 
   };
 
+  try {
+    const response = await fetch(
+      "https://skill-development-backend.vercel.app/services",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(mainData),
+      }
+    );
+    if (response.ok) {
+      toast.success("Service added successfully!");
+      setServiceData((prev) => ({
+        ...prev,
+        name: "",
+        category: "",
+        price: "",
+        description: "",
+        image: "",
+      }));
+    } else {
+      toast.error("Failed to add service.");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong! " + error.message);
+  }
+};
   return (
     <div className="max-w-6xl mx-auto p-6 shadow-md rounded-lg mt-8">
       <h2 className="text-3xl font-bold mb-6 text-center">Add New Service</h2>
