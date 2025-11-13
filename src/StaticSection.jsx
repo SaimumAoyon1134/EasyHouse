@@ -3,7 +3,7 @@ import { FaStar, FaQuoteLeft, FaCheckCircle } from "react-icons/fa";
 
 const StaticSections = () => {
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div className=" ">
  
       <section className="py-16 px-6 md:px-16 bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white text-center">
         <h2 className="text-4xl font-extrabold mb-8 animate__animated animate__fadeInDown">
@@ -37,8 +37,8 @@ const StaticSections = () => {
       </section>
 
 
-      <section className="py-20 px-6 md:px-16 bg-white text-center">
-        <h2 className="text-4xl font-extrabold mb-10 text-gray-800">
+      <section className="py-20 px-6 md:px-16  text-center">
+        <h2 className="text-4xl font-extrabold mb-10 ">
           What Our <span className="text-[#6A11CB]">Customers</span> Say
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -58,10 +58,10 @@ const StaticSections = () => {
           ].map((review, i) => (
             <div
               key={i}
-              className="p-6 rounded-2xl bg-gray-100 shadow-md hover:shadow-lg transition-all duration-300 relative"
+              className="p-6 rounded-2xl  shadow-md hover:shadow-lg transition-all duration-300 relative"
             >
               <FaQuoteLeft className="text-[#6A11CB] text-3xl mb-3" />
-              <p className="italic mb-4 text-gray-700">“{review.text}”</p>
+              <p className="italic mb-4 ">“{review.text}”</p>
               <div className="flex justify-center mb-2">
                 {[...Array(5)].map((_, index) => (
                   <FaStar key={index} className="text-yellow-400" />

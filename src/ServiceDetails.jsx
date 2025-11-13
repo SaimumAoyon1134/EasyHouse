@@ -112,7 +112,7 @@ const ServiceDetails = () => {
       <div className="flex border flex-col md:flex-row shadow-xl rounded-2xl overflow-hidden">
         <div className="md:w-1/2">
           <img
-            src={service.image || "https://via.placeholder.com/400"}
+            src={service.image || "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"}
             alt={service.name}
             className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
           />
@@ -125,11 +125,11 @@ const ServiceDetails = () => {
           </p>
           <p className="text-lg mb-2">
             <span className="font-semibold">Provider:</span>{" "}
-            {service.providerName}
+            <span className="text-green-600 font-bold">{service.providerName}</span>
           </p>
           <p className="text-sm mb-4">📧 {service.email}</p>
           <p className="text-2xl font-semibold text-green-600 mb-4">
-            ${service.price}
+            {service.price} BDT
           </p>
           <p className="leading-relaxed mb-6">{service.description}</p>
 

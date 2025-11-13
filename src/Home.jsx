@@ -6,6 +6,7 @@ import Loading from './Loading';
 import "animate.css"
 import TopRatedServices from './TopRatedServices';
 import StaticSections from './StaticSection';
+import Explore from './Explore';
 
 
 
@@ -20,6 +21,7 @@ const Home = () => {
   return (
     <div className="animate__animated animate__fadeInLeft">
       <ContinuousSwiper />
+      <Explore/>
       <TopRatedServices/>
       <StaticSections/>
   

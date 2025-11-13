@@ -135,7 +135,7 @@ const Services = () => {
               </div>
               <button
                 onClick={() => navigate(`/service/${service._id}`)}
-                className="btn btn-primary w-full"
+                className="btn bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white  w-full"
               >
                 View Details
               </button>

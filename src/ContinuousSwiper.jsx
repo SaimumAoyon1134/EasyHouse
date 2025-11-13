@@ -54,11 +54,20 @@ const ContinuousSwiper = () => {
               onClick={() => navigate(`/service/${item._id}`)}
             >
               <img
-                src={item.image || "https://via.placeholder.com/150"}
+                src={item.image || "https://cdn-icons-png.flaticon.com/512/5474/5474438.png"}
                 alt={item.name}
                 className="w-full h-40 object-cover rounded-lg mb-2"
               />
               <p className="text-center text-2xl font-bold">{item.name}</p>
+              <p
+  className=" text-sm mb-4 text-center h-12 flex items-center justify-center"
+>
+  {item.description
+    ? item.description.length > 100
+      ? `${item.description.slice(0, 100)}...`
+      : item.description
+    : "No description"}
+</p>
             </div>
           </SwiperSlide>
         ))}

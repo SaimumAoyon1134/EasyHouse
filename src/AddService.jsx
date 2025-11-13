@@ -143,7 +143,7 @@ const AddService = () => {
           />
         </div>
         <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-center">
-          <button type="submit" className="btn btn-primary mt-4 flex items-center justify-center gap-2 px-8">
+          <button type="submit" className="btn btn-primary bg-gradient-to-r from-[#6A11CB] to-[#2575FC]  text-white mt-4 flex items-center justify-center gap-2 px-8">
             <AddIcon /> Add Service
           </button>
         </div>

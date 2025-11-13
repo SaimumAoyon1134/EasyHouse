@@ -8,7 +8,7 @@ const Invalid = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center justify-center h-screen  p-6">
 
       <motion.div
         animate={{ rotate: [0, 10, -10, 10, -10, 0] }}

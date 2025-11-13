@@ -46,6 +46,7 @@ const Register = () => {
         }
         e.target.reset();
         navigate("/");
+        toast.success("Successfully Signed In!");
 
       })
       .catch((error) => {

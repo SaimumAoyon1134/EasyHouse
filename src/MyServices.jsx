@@ -83,7 +83,7 @@ const ProviderServices = () => {
       if (response.ok) {
         Toast.fire({
           icon: "success",
-          title: "Signed in successfully",
+          title: "Updated successfully",
         });
         fetchServices();
         closeModal();
@@ -152,14 +152,14 @@ const ProviderServices = () => {
                 <td className="border px-4 py-2 space-x-2">
                   <button
                     onClick={() => openEditModal(service)}
-                    className="btn btn-sm btn-primary "
+                    className="btn btn-sm bg-gradient-to-r from-[#6A11CB] to-[#2575FC] text-white hover:scale-[1.04] "
                   >
                     <UpgradeIcon />
                     Update
                   </button>
                   <button
                     onClick={() => handleDelete(service._id)}
-                    className="btn btn-sm btn-error"
+                    className="btn btn-sm bg-gradient-to-r from-[#6A11CB] to-[#2575FC]  text-white hover:scale-[1.04]"
                   >
                     <DeleteIcon />
                     Delete
@@ -184,13 +184,13 @@ const ProviderServices = () => {
             <div className="flex space-x-2 mt-2">
               <button
                 onClick={() => openEditModal(service)}
-                className="btn btn-sm btn-primary flex-1"
+                className="btn btn-sm btn-primary flex-1 "
               >
                 Update
               </button>
               <button
                 onClick={() => handleDelete(service._id)}
-                className="btn btn-sm btn-error flex-1"
+                className="btn btn-sm btn-error flex-1" 
               >
                 Delete
               </button>
@@ -211,7 +211,7 @@ const ProviderServices = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
-              className="bg-[#001931] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6"
+              className="bg-gradient-to-r from-[#6A11CB] to-[#2575FC] rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto p-6"
             >
               <form onSubmit={handleUpdate} className="space-y-4">
                 <input

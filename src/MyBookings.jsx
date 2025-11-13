@@ -10,7 +10,7 @@ const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeReview, setActiveReview] = useState(null); // holds booking to review
+  const [activeReview, setActiveReview] = useState(null); 
 
   const fetchBookings = async () => {
     if (!user?.email) return;
